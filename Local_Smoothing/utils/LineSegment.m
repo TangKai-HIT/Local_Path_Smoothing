@@ -19,11 +19,11 @@ classdef LineSegment < handle
             end
         end
 
-        function pt = getPointFromEnd(dis)
+        function pt = getPointFromEnd(obj, dis)
             pt = obj.endPt + (obj.startPt - obj.endPt)/obj.len * dis;
         end
 
-        function pt = getPointFromStart(dis)
+        function pt = getPointFromStart(obj, dis)
             pt = obj.startPt + (obj.endPt - obj.startPt)/obj.len * dis;
         end
     end
