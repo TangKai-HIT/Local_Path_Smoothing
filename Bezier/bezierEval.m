@@ -1,7 +1,7 @@
 function b = bezierEval(m, u, control_pts)
 %BEZIEREVAL evaluate bezier curve at u using Casteljau algorithm
 %   Inputs:
-%       control_pts: m X dim
+%       control_pts: m-1 X dim
 %       u: 1 X N or N X 1
 
 b = zeros(length(u), size(control_pts, 2));
