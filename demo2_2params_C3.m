@@ -1,4 +1,5 @@
 %demo2: quintic b-spline local C3 smoothing method1(with 2 control params) on a tangent arc-line pair 
+close all; clear; clc;
 
 %% Test segments
 arc_start = [0;0];
@@ -82,6 +83,7 @@ end
 %print smoothing length
 disp("smoothing length:"); disp(smooth_len);
 %print max kappa
+max_kappa = max(kappa);
 disp("max kappa:"); disp(max(kappa));
 if max_kappa > arc_kappa
     overshoot = (max_kappa - arc_kappa) / arc_kappa;

@@ -1,4 +1,5 @@
 %demo1: quintic b-spline local C3 smoothing method1(with 1 param) on a tangent arc-line pair 
+close all; clear; clc;
 
 %% Test segments
 arc_start = [0;0];
