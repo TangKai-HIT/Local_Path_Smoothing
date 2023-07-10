@@ -1,0 +1,53 @@
+------------------------------
+phi = 5
+smoothing length:
+    0.5726
+
+max kappa:
+    0.1696
+
+Kappa Overshoot:
+% 1.75
+
+------------------------------
+phi = 10
+smoothing length:
+    1.1490
+
+max kappa:
+    0.1698
+
+Kappa Overshoot:
+% 1.88
+-----------------------------
+phi = 20
+smoothing length:
+    2.3286
+
+max kappa:
+    0.1710
+
+Kappa Overshoot:
+% 2.60
+
+-----------------------------
+phi = 30
+smoothing length:
+    3.5732
+
+max kappa:
+    0.1734
+
+Kappa Overshoot:
+% 4.06
+
+-----------------------------
+phi = 50
+smoothing length:
+    6.4488
+
+max kappa:
+    0.1826
+
+Kappa Overshoot:
+% 9.56
