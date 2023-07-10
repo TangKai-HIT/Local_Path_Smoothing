@@ -32,7 +32,8 @@ m = 3; %order
 C1 = 0.58;
 
 K = radius * tan(phi_e/2);
-lambda = C1;
+% lambda = C1;
+lambda = 0.5;
 
 % h = (lambda + 4) * K / (6 * cos(phi_e));
 h = arc_kappa * (3*K^2) / (2*sin(phi_e)); %no longer satisfy monototic kappa, but get continuous kappa instead 
