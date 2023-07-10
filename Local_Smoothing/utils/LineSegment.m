@@ -6,6 +6,7 @@ classdef LineSegment < handle
         startPt
         endPt
         len
+        tau
     end
     
     methods
@@ -16,6 +17,7 @@ classdef LineSegment < handle
                 obj.startPt = startPt;
                 obj.endPt = endPt;
                 obj.len = norm(startPt - endPt);
+                obj.tau = (endPt - startPt)/obj.len;
             end
         end
 
