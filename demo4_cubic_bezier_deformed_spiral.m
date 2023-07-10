@@ -1,7 +1,7 @@
 %demo3-1: cubic bezier deformed spiral G2 transition test
 %Note: cubic bezier spiral (CBS)
-close all; clear; clc;
-
+% close all; clear; clc;
+close all;
 %% Test segments
 arc_start = [0;0];
 arc_startHeading = pi;
@@ -25,7 +25,7 @@ axis equal
 
 %% Set basic parameters
 %design parameters
-phi_e = deg2rad(10); %P6 position angle on arc
+phi_e = deg2rad(25); %P6 position angle on arc
 
 %CBS params
 m = 3; %order
@@ -33,7 +33,7 @@ C1 = 0.58;
 
 K = radius * tan(phi_e/2);
 % lambda = C1;
-lambda = 0.5;
+lambda = 0.34;
 
 % h = (lambda + 4) * K / (6 * cos(phi_e));
 h = arc_kappa * (3*K^2) / (2*sin(phi_e)); %no longer satisfy monototic kappa, but get continuous kappa instead 
