@@ -110,3 +110,19 @@ xlabel("s"); ylabel("u");
 %resample on s
 num_samples = 20;
 [s_sample, u_sample] = sample_on_s(params, arc_lens, num_samples, true);
+
+%plot resample points on curve
+figure()
+hold on; grid on;
+delta_s_sample = [];
+pre_pt = [];
+for i = 1:num_samples
+    cur_pt = bezierEval(m, u_sample(i), controlPts);
+    if i > 1
+        delta_s_sample = [delta_s_sample, norm(pre_pt - cur_pt)];
+    end
+    
+    plot(cur_pt(1), cur_pt(2), 'ok', 'MarkerSize', 3, 'MarkerFaceColor','black');
+    pre_pt = cur_pt;
+end
+plotBezier_2D(gca, controlPts);
