@@ -1,7 +1,8 @@
 %demo3-1: cubic bezier deformed spiral G2 transition test
 %Note: cubic bezier spiral (CBS)
-% close all; clear; clc;
-close all;
+close all; clear; clc;
+% close all;
+
 %% Test segments
 arc_start = [0;0];
 arc_startHeading = pi;
@@ -95,3 +96,17 @@ plot(u_sample, kappa, '-b', "LineWidth", 1.5); hold on;
 plot(u_sample, ones(1, num) * (1/radius), '--k', "LineWidth", 1.5);
 plot(u_sample, ones(1, num) * max(kappa), '--r', "LineWidth", 1.5);
 grid on;
+
+%% Uniform arc-length sampling on bezier curve
+%get param to arc length index
+derivativeFcn = @(u) norm(bezierEval(m-1, u, dp_control_pts));
+[arc_lens, params] = arclength_reparam(derivativeFcn, [0, 1], 100);
+
+%plot s-u relation
+figure()
+plot(arc_lens, params, '-b', 'LineWidth', 1);
+xlabel("s"); ylabel("u");
+
+%resample on s
+num_samples = 20;
+[s_sample, u_sample] = sample_on_s(params, arc_lens, num_samples, true);
