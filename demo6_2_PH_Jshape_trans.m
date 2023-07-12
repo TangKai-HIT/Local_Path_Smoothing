@@ -1,6 +1,7 @@
 %demo6-2: a J-shape PH quintic G2 transition (1 extremum on curvature 2 spirals) test
-% close all; clear; clc;
-close all;
+close all; clear; clc;
+% close all;
+
 %% Test segments
 arc_start = [0;0];
 arc_startHeading = pi;
@@ -24,35 +25,42 @@ axis equal
 
 %% Set basic parameters
 %design parameters
-phi_e = deg2rad(25); %P6 position angle on arc
+phi = deg2rad(10); %P5 position angle on arc
+phi_e = phi/2; 
+m = 0.6714; % single curvature extremum condition: m > 0.6714
 
-%CBS params
-m = 3; %order
-C1 = 0.58;
+%PH curve params
+p = 5; %order
 
-K = radius * tan(phi_e/2);
-% lambda = C1;
-lambda = 0.34;
+%% Get PH curve params & control points
+%PH curve params
+d1 = sqrt(18 + 5*m + 3*cos(2*phi_e));
+d0 = (2*sqrt(6) * (d1 - sqrt(6)*cos(phi_e)) * sin(phi_e)) / (3 + m);
+d = sqrt(d0 * radius);
 
-% h = (lambda + 4) * K / (6 * cos(phi_e));
-h = arc_kappa * (3*K^2) / (2*sin(phi_e)); %no longer satisfy monototic kappa, but get continuous kappa instead 
-g = lambda * h;
+u1 = d^3 / (4 * radius * sin(phi_e));
+u0 = m*u1;
+u2 = d*cos(phi_e);
+u_coeff = [u0, u1, u2];
 
-%% Get control points
-[B3, tau3, ~] = arc.getPointFrenet(phi_e);
+v_coeff = [0, 0, d*sin(phi_e)];
 
-%get B2
-B2 = B3 - K * tau3;
+%control points
+controlPts = get_PH_controlPts(u_coeff, v_coeff);
 
-%get B1
-tau1 = arc.startTau;
-B1 = B2 - h * tau1;
+%transformation
+trans2D = @(theta, trans_vec, point) (rot2d(theta)*point + trans_vec);
+P5 = arc.getPointFrenet(phi);
+P0_heading = arc.startHeading;
 
-%get B0
-B0 = B1 - g * tau1;
+for i =1:size(controlPts, 1)
+    controlPts(i, 2) = -controlPts(i, 2); %flip
+    controlPts(i, :) = trans2D(P0_heading, arc.startPt, controlPts(i, :)');
+end
+
+controlPts = controlPts + (P5' - controlPts(end, :));
 
 %% Plot result
-controlPts = [B0, B1, B2, B3]';
 plotBezier_2D(ax, controlPts);
 grid on;
 
@@ -60,21 +68,19 @@ grid on;
 num = 50;
 u_sample = linspace(0, 1, num);
 %derivative of CBS
-[dp_control_pts, ~] = bezierDerivParams(m, 1, controlPts);
-[ddp_control_pts, ~] = bezierDerivParams(m-1, 1, dp_control_pts);
+[dp_control_pts, ~] = bezierDerivParams(p, 1, controlPts);
+[ddp_control_pts, ~] = bezierDerivParams(p-1, 1, dp_control_pts);
 %compute kappa & arc length
 kappa = zeros(num, 1);
 smooth_len = 0;
 for i=1:num
-    cur_P = bezierEval(m, u_sample(i), controlPts);
+    cur_P = bezierEval(p, u_sample(i), controlPts);
     if i>1
         smooth_len = smooth_len + norm(cur_P - last_P);
     end
     last_P = cur_P;
 
-    dp_du = bezierEval(m-1, u_sample(i), dp_control_pts);
-    ddp_ddu = bezierEval(m-2, u_sample(i), ddp_control_pts);
-    kappa(i) = abs(get_kappa(dp_du', ddp_ddu'));
+    kappa(i) = abs(get_PH_curvature(u_sample(i), u_coeff, v_coeff));
 end
 %print smoothing length
 disp("smoothing length:"); disp(smooth_len);
