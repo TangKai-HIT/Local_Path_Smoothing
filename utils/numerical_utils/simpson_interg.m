@@ -9,7 +9,6 @@ function [f_x, x] = simpson_interg(funcHandle, interval, m)
 %       f_x: intergration points -- f(x0), ... ,f(xm) [note that f(x0)=0 for integrate from x0 to x0]
 
 x = linspace(interval(1), interval(2), m+1); %query points
-f_x = zeros(1, m+1); %intergration points
 h = (interval(2) - interval(1)) / (2*m);
 
 %init
