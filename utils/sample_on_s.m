@@ -1,5 +1,5 @@
 function [s_sample, u_sample] = sample_on_s(params, arc_lens, num_samples, plotFlag)
-%SAMPLE_ON_S 此处显示有关此函数的摘要
+%SAMPLE_ON_S Uniform arc-length sampling on a parametric curve
 %   此处显示详细说明
 
 %resample on s
@@ -12,7 +12,7 @@ u_sample(end) = params(end);
 %s-u
 index = 2;
 i = 2;
-while i<=100-1 && index<=num_samples
+while i<=length(arc_lens) && index<=num_samples
     if arc_lens(i) > s_sample(index)
         del_u = params(i) - params(i-1); 
         del_arc = arc_lens(i) - arc_lens(i-1);

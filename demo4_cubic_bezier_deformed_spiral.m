@@ -129,4 +129,5 @@ for i = 1:num_samples
     plot(cur_pt(1), cur_pt(2), 'ok', 'MarkerSize', 3, 'MarkerFaceColor','black');
     pre_pt = cur_pt;
 end
-plotBezier_2D(gca, controlPts);
+plotBezier_2D(gca, controlPts); 
+axis equal;
