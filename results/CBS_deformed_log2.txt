@@ -1,0 +1,17 @@
+#test if length on line decrease as phi_e decrease:
+Test Result: length on line decreases with phi_e when phi_e <= 20 degree
+0.0726 (phi = 25)
+
+0.0874 (phi = 20)
+
+0.0789 (phi = 15)
+
+0.0584 (phi = 10)
+
+0.0314 (phi = 5)
+
+0.0131 (phi = 2)
+
+0.0066 (phi = 1)
+
+0.0033 (phi = 0.5)
