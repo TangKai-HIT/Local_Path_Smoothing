@@ -1,7 +1,7 @@
 %demo3-1: cubic bezier deformed spiral G2 transition test
 %Note: cubic bezier spiral (CBS)
-close all; clear; clc;
-% close all;
+% close all; clear; clc;
+close all;
 
 %% Test segments
 arc_start = [0;0];
@@ -34,11 +34,15 @@ C1 = 0.58;
 
 K = radius * tan(phi_e/2);
 % lambda = C1;
-lambda = 0.34;
+load("./results/fitted_lookup.mat")
+lambda = fitted_lookup(rad2deg(phi_e));
 
 % h = (lambda + 4) * K / (6 * cos(phi_e));
 h = arc_kappa * (3*K^2) / (2*sin(phi_e)); %no longer satisfy monototic kappa, but get continuous kappa instead 
 g = lambda * h;
+
+% disp(g+h+cos(phi_e)*K - radius*sin(phi_e)); %test if length on line decrease as phi_e decrease
+% %Test Result: length on line decreases with phi_e when phi_e <= 20 degree
 
 %% Get control points
 [B3, tau3, ~] = arc.getPointFrenet(phi_e);
@@ -121,7 +125,7 @@ for i = 1:num_samples
     if i > 1
         delta_s_sample = [delta_s_sample, norm(pre_pt - cur_pt)];
     end
-    
+
     plot(cur_pt(1), cur_pt(2), 'ok', 'MarkerSize', 3, 'MarkerFaceColor','black');
     pre_pt = cur_pt;
 end
