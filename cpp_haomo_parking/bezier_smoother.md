@@ -18,21 +18,38 @@
 
 ## 1.方案简要说明
 
-可使用的转接情形：  
+**可使用的转接情形：**  
 
-case 1:  
+case-1:  
+
 ![](figures/case1.jpg)
 
-case 2:  
+case-2:  
+
 ![](figures/case2.jpg)
   
 - 定义 $\lambda=g/h$
 - 圆弧端曲率：$\kappa=\frac{2h\sin(\phi)}{3k^2}$
 - $k=d\sin(\phi)+R\tan(\phi/2)$
 
-按照以上文献中螺线的构造方法没法满足case 1的需要（曲率超限较大，无法再曲率单调），本人采用以下参数构造方法：
+**整体构造流程：**
+1. 给定 $\phi$ （通过误差限约束、实际圆弧段的最大圆心角来确定）
+2. 由 $\phi$ 计算切线段 $k$ 
+3. 由圆弧段曲率 $\kappa$， $\phi$，$k$ 计算出 $h$
+4. 选取合适的 $\lambda$ 
+5. 最后计算 $g=\lambda h$，构造完毕    
 
-- 通过优化方法找到不同 $\phi$ 下最优的（曲率超限百分比最小） $\lambda$ ，做函数拟合，拟合结果：$-0.03205 \exp(0.0725\phi) + 0.5366$
+按照以上文献中螺线的构造方法没法满足case-1的需要（曲率超限较大，无法再曲率单调）：（如以下例子，取 $\lambda=0.58$，**曲率超限 2.60%**）
+
+![](./figures/R_6_phi_20_lambda_0.58_tangent.jpg)
+
+![](./figures/kappa_R_6_phi_20_lambda_0.58_tangent.jpg)
+
+`Kappa Overshoot: % 2.60`
+
+**针对该问题，本人采用以下参数构造方法：**
+
+- 通过优化方法找到不同 $\phi$ 下最优的（曲率超限百分比最小） $\lambda$ ，做函数拟合，拟合结果：$\lambda(\phi)=-0.03205 \exp(0.0725\phi) + 0.5366$
 - 之后可通过单参数 $\phi$ 确定整条曲线
 
 拟合结果：
@@ -41,7 +58,44 @@ case 2:
 设计参数与误差限关系：
 ![](../results/figures/CB_trans_design_lookup.jpg)
 
-最后只要将转接角 $\phi$ 设定在0~30度内即可（误差限最多1%左右）
+*最后只要将转接角 $\phi$ 设定在0~30度内即可（误差限最多1%左右）*
+
+**性质：**  
+几何相似性：对于case-1（相切情形）而言，对于任意半径圆弧，贝塞尔曲线参数随半径 $R$ 缩放，该方法构造转接曲线的 $\epsilon$ （最大曲率超出百分比）都是一致的。
+
+### 仿真效果示例
+
+#### （1）用于case-1的效果示例
+  圆弧半径 $R=6m$, 选取 $\phi=20°$  
+
+  转接效果：
+
+  ![](./figures/R_6_phi_20_tangent.jpg)
+
+  `smoothing length: 2.1817 m`
+
+  曲率变化：
+
+  ![](./figures/kappa_R_6_phi_20_tangent.jpg)
+
+  `Kappa Overshoot: % 0.33`
+
+  弧长等距重采样：
+
+  ![](./figures/reparam_R_6_phi_20_tangent.jpg)
+
+#### （2）用于case-2的效果示例（螺线）
+  圆弧半径 $R=6m$, 与直线间隔 $d=0.2m$ 选取 $\phi=30°$  
+
+  转接效果：
+
+  ![](./figures/R_6_phi_30_gap_0.2.jpg)
+
+  `smoothing length: 4.7989 m`
+
+  ![](./figures/kappa_R_6_phi_30_gap_0.2.jpg)
+  
+  `Kappa Overshoot: % 0.0，单调递增，呈螺线性质`
 
 ## 2.函数模块说明
 
